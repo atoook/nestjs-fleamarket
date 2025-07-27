@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Item } from './items.model';
@@ -20,7 +21,7 @@ export class ItemsController {
   }
 
   @Get(':id')
-  findById(@Param('id') id: string): Item | undefined {
+  findById(@Param('id', ParseUUIDPipe) id: string): Item | undefined {
     return this.itemsService.findById(id);
   }
 
@@ -30,7 +31,7 @@ export class ItemsController {
   }
 
   @Put(':id')
-  updateStatus(@Param('id') id: string) {
+  updateStatus(@Param('id', ParseUUIDPipe) id: string) {
     const item = this.itemsService.updateStatus(id);
     return item;
   }

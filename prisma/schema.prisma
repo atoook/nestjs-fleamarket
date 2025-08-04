@@ -17,6 +17,7 @@ datasource db {
 model Item {
   id          String     @id @default(uuid()) @db.Uuid
   name        String     @db.VarChar(255)
+  price       Int
   description String?
   status      ItemStatus @default(ON_SALE)
   createdAt   DateTime   @default(now()) @db.Timestamp(0)

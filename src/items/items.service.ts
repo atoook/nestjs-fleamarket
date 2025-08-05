@@ -32,7 +32,6 @@ export class ItemsService {
   }
 
   async updateStatus(id: string): Promise<Item> {
-    const item = await this.findById(id);
     return await this.prismaService.item.update({
       where: { id },
       data: {

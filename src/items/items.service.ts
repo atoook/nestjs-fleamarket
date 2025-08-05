@@ -27,6 +27,7 @@ export class ItemsService {
         price,
         description,
         status: ItemStatus.ON_SALE,
+        userId: '', // TODO: Set the userId base on the authenticated user
       },
     });
   }

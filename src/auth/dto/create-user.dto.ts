@@ -24,7 +24,6 @@ export class CreateUserDto {
     minSymbols: 1,
     minUppercase: 1,
   })
-  @IsString()
   password: string;
 
   @IsEnum(UserStatus)

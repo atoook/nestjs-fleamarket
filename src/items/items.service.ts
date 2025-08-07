@@ -19,7 +19,7 @@ export class ItemsService {
     return found;
   }
 
-  async create(createItemDto: CreateItemDto): Promise<Item> {
+  async create(createItemDto: CreateItemDto, userId: string): Promise<Item> {
     const { name, price, description } = createItemDto;
     return this.prismaService.item.create({
       data: {
@@ -27,7 +27,7 @@ export class ItemsService {
         price,
         description,
         status: ItemStatus.ON_SALE,
-        userId: '', // TODO: Set the userId base on the authenticated user
+        userId,
       },
     });
   }

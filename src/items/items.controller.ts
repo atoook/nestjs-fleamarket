@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
-import { Item } from 'generated/prisma';
+import { Item, UserStatus } from 'generated/prisma';
 import { CreateItemDto } from './dto/create-item.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request as ExpressRequest } from 'express';
@@ -40,12 +40,17 @@ export class ItemsController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
   async updateStatus(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
     return await this.itemsService.updateStatus(id);
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    await this.itemsService.delete(id);
+  @UseGuards(AuthGuard('jwt'))
+  async delete(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: ExpressRequest & { user: RequestUser },
+  ): Promise<void> {
+    await this.itemsService.delete(id, req.user.id);
   }
 }

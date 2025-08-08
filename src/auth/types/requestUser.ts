@@ -1,4 +1,4 @@
-import { UserStatus } from 'generated/prisma';
+import { UserStatus } from '../../../generated/prisma';
 
 export type RequestUser = {
   id: string;

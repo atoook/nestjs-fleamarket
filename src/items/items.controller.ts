@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
-import { Item, UserStatus } from 'generated/prisma';
+import { Item, UserStatus } from '../../generated/prisma';
 import { CreateItemDto } from './dto/create-item.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request as ExpressRequest } from 'express';

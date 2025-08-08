@@ -2,7 +2,7 @@ import { CredentialsDto } from './dto/credentials.dto';
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from 'generated/prisma';
+import { User } from '../../generated/prisma';
 
 @Controller('auth')
 export class AuthController {

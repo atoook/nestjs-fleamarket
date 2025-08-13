@@ -9,6 +9,17 @@ export class ItemsService {
   async findAll(): Promise<Item[]> {
     return await this.prismaService.item.findMany();
   }
+
+  private async findByIdForOwner(id: string, userId: string): Promise<Item> {
+    const found = await this.prismaService.item.findFirst({
+      where: { id, userId },
+    });
+    if (!found) {
+      throw new NotFoundException('Item not found');
+    }
+    return found;
+  }
+
   async findById(id: string): Promise<Item> {
     const found = await this.prismaService.item.findUnique({
       where: { id },
@@ -33,6 +44,7 @@ export class ItemsService {
   }
 
   async updateStatus(id: string): Promise<Item> {
+    await this.findById(id);
     return await this.prismaService.item.update({
       where: { id },
       data: {
@@ -42,6 +54,7 @@ export class ItemsService {
   }
 
   async delete(id: string, userId: string): Promise<void> {
+    await this.findByIdForOwner(id, userId);
     await this.prismaService.item.delete({
       where: { id, userId },
     });

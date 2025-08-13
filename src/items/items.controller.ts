@@ -38,17 +38,15 @@ export class ItemsController {
   async create(
     @Body() createItemDto: CreateItemDto,
     @Request() req: ExpressRequest & { user: RequestUser },
-    @Res() res: Response,
-  ): Promise<void> {
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<Item> {
     const createdItem = await this.itemsService.create(
       createItemDto,
       req.user.id,
     );
 
-    res
-      .status(HttpStatus.CREATED)
-      .location(`/items/${createdItem.id}`)
-      .json(createdItem);
+    res.location(`${req.originalUrl.replace(/\/$/, '')}/${createdItem.id}`);
+    return createdItem;
   }
 
   @Put(':id')

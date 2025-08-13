@@ -11,13 +11,11 @@ export class ItemsService {
   }
 
   private async findByIdForOwner(id: string, userId: string): Promise<Item> {
-    const found = await this.prismaService.item.findUnique({
+    const found = await this.prismaService.item.findFirst({
       where: { id, userId },
     });
     if (!found) {
-      throw new NotFoundException(
-        `Item with id ${id} not found for user ${userId}`,
-      );
+      throw new NotFoundException('Item not found');
     }
     return found;
   }

@@ -11,6 +11,7 @@ import {
   UseGuards,
   Res,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Item, UserStatus } from '../../generated/prisma';
@@ -57,6 +58,7 @@ export class ItemsController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard('jwt'))
   async delete(
     @Param('id', ParseUUIDPipe) id: string,

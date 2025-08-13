@@ -9,12 +9,14 @@ import {
   Request,
   ParseUUIDPipe,
   UseGuards,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Item, UserStatus } from '../../generated/prisma';
 import { CreateItemDto } from './dto/create-item.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Request as ExpressRequest } from 'express';
+import { Request as ExpressRequest, Response } from 'express';
 import { RequestUser } from '../auth/types/requestUser';
 
 @Controller('items')
@@ -35,8 +37,17 @@ export class ItemsController {
   async create(
     @Body() createItemDto: CreateItemDto,
     @Request() req: ExpressRequest & { user: RequestUser },
-  ): Promise<Item> {
-    return await this.itemsService.create(createItemDto, req.user.id);
+    @Res() res: Response,
+  ): Promise<void> {
+    const createdItem = await this.itemsService.create(
+      createItemDto,
+      req.user.id,
+    );
+
+    res
+      .status(HttpStatus.CREATED)
+      .location(`/items/${createdItem.id}`)
+      .json(createdItem);
   }
 
   @Put(':id')
